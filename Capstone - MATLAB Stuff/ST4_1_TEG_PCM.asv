@@ -274,9 +274,9 @@ figure(5)
     hold on
     grid on 
     grid minor
-    plot(t,Casey_spr_mean_temp_10k)
-    plot(t,Casey_spring_temp)
-    plot(t,PCM_temp_Casey_Spr_10k)
+    plot(t,Davis_spr_mean_temp_10k)
+    plot(t,Davis_spring_temp)
+    plot(t,PCM_temp_Davis_Spr_10k)
     ylabel('Temp [C]')
     xlabel('Time - 24 hour')
     legend('Mean Temp across TEG','Ambient Temp','PCM Temp')
@@ -287,5 +287,446 @@ figure(5)
 % 24 cases to consider 
 % 6x wind cases
 
+%% TEG Voltage 
+% V = N * seebck.(average temp) * temp_diff
+N = 241; % number of p&n type conductors
+
+% Seebeck
+% dimensionless seebeck equation
+% ~ =  (-1.132*10^(-5) .* (Casey_mean_temp)^2 )...
+% + (8.64*10^(-3) .* (Casey_mean_temp(i))) ...
+% - 0.582;
+
+
+% seebeck variable across 24/hour cycle
+
+%% wind = 10km/hr
+
+seebeck_dim_Casey_sum_10k = zeros(1,length(t));
+seebeck_dim_Casey_spr_10k = zeros(1,length(t));
+
+seebeck_dim_Davis_sum_10k = zeros(1,length(t));
+seebeck_dim_Davis_spr_10k = zeros(1,length(t));
+
+% temperatures need to be in KELVIN to work
+
+for i = 1:48
+    Casey_sum_mean_temp_10k(i) = Casey_sum_mean_temp_10k(i) + 273.15;
+    Casey_spr_mean_temp_10k(i) = Casey_spr_mean_temp_10k(i) + 273.15; 
+    
+    Davis_sum_mean_temp_10k(i) = Davis_sum_mean_temp_10k(i) + 273.15;
+    Davis_spr_mean_temp_10k(i) = Davis_spr_mean_temp_10k(i) + 273.15;
+end
+% Celsius 2 Kelvin!!
+
+for i = 1:48
+    seebeck_dim_Casey_sum_10k(i) = ...
+        (-1.132*10^(-5) .* (Casey_sum_mean_temp_10k(i))^2 ) ...
+        + (8.64*10^(-3) .* (Casey_sum_mean_temp_10k(i))) ...
+        - 0.582;
+
+        seebeck_dim_Casey_spr_10k(i) = ...
+        (-1.132*10^(-5) .* (Casey_spr_mean_temp_10k(i))^2 ) ...
+        + (8.64*10^(-3) .* (Casey_spr_mean_temp_10k(i))) ...
+        - 0.582;
+
+        seebeck_dim_Davis_sum_10k(i) = ...
+        (-1.132*10^(-5) .* (Davis_sum_mean_temp_10k(i))^2 ) ...
+        + (8.64*10^(-3) .* (Davis_sum_mean_temp_10k(i))) ...
+        - 0.582;
+
+        seebeck_dim_Davis_spr_10k(i) = ...
+        (-1.132*10^(-5) .* (Davis_spr_mean_temp_10k(i))^2 ) ...
+        + (8.64*10^(-3) .* (Davis_spr_mean_temp_10k(i))) ...
+        - 0.582;
+end
+
+% dim*stc = seebeck
+seebeck_stc = 345 * 10^-6; % V / K @ T = 300 K
+
+seebeck_Casey_sum_10k = zeros(1,length(t));
+seebeck_Casey_spr_10k = zeros(1,length(t));
+
+seebeck_Davis_sum_10k = zeros(1,length(t));
+seebeck_Davis_spr_10k = zeros(1,length(t));
+
+for i = 1:48 
+    seebeck_Casey_sum_10k(i) = seebeck_dim_Casey_sum_10k(i).*seebeck_stc;
+    seebeck_Casey_spr_10k(i) = seebeck_dim_Casey_spr_10k(i).*seebeck_stc;
+
+    seebeck_Davis_sum_10k(i) = seebeck_dim_Davis_sum_10k(i).*seebeck_stc;
+    seebeck_Davis_spr_10k(i) = seebeck_dim_Davis_spr_10k(i).*seebeck_stc;
+
+end
+
+% V = N * seebck.(average temp) * temp_diff
+TEG_V_Casey_sum_10k = zeros(1,length(t));
+TEG_V_Casey_spr_10k = zeros(1,length(t));
+
+TEG_V_Davis_sum_10k = zeros(1,length(t));
+TEG_V_Davis_spr_10k = zeros(1,length(t));
+
+for i = 1:48
+    
+TEG_V_Casey_sum_10k(i) = N .* seebeck_Casey_sum_10k(i) ...
+    .* Casey_sum_temp_diff_10k(i);
+
+TEG_V_Casey_spr_10k(i) = N .* seebeck_Casey_spr_10k(i) ...
+    .* Casey_spr_temp_diff_10k(i);
+
+
+TEG_V_Davis_sum_10k(i) = N .* seebeck_Davis_sum_10k(i) ...
+    .* Davis_sum_temp_diff_10k(i);
+
+TEG_V_Davis_spr_10k(i) = N .* seebeck_Davis_spr_10k(i) ...
+    .* Davis_spr_temp_diff_10k(i);
+
+end
+
+figure(6)
+    hold on
+    grid on 
+    grid minor
+    plot(t,TEG_V_Casey_sum_10k)
+    plot(t,TEG_V_Casey_spr_10k)
+    plot(t,TEG_V_Davis_sum_10k)
+    plot(t,TEG_V_Davis_spr_10k)
+    ylabel('Voltage [V]')
+    xlabel('Time - 24 hour')
+    legend('Casey - Summer','Casey - Spring','Davis - Summer','Davis - Spring')
+    title('Voltage across 1 TEG Module - wind = 10 km/hr')
+    hold off
+
 
 %% -- %% -- %% TEG INTERNAL RESISTANCE %% -- %% -- %%
+% Variables
+r_con = 5*(10^-9); % 
+thick = 0.0011; % m - thickness - 1.1mm
+area = 2.89 * 10^-6; % area - m^2  
+
+elec_cond_stc = 28103; % Ohm.metre @ T = 300 K
+
+% Davis_dim_elec_cond_max(i) = (6.257*10^(-5) .* (Davis_mean_temp_max(i))^2 )...
+% - (4.381*10^(-2) .* (Davis_mean_temp_max(i))) ...
+% + 8.629;
+
+%% Wind = 10km/hr
+
+elec_cond_dim_Casey_sum_10k = zeros(1,length(t));
+elec_cond_dim_Casey_spr_10k = zeros(1,length(t));
+
+elec_cond_dim_Davis_sum_10k = zeros(1,length(t));
+elec_cond_dim_Davis_spr_10k = zeros(1,length(t));
+
+for i = 1:48
+    elec_cond_dim_Casey_sum_10k(i) = ...
+        (6.257*10^(-5) .* (Casey_sum_mean_temp_10k(i))^2 ) ...
+        - ( 4.381*10^(-2) .* (Casey_sum_mean_temp_10k(i)) ) ...
+        + 8.629;
+
+    elec_cond_dim_Casey_spr_10k(i) = ...
+        (6.257*10^(-5) .* (Casey_spr_mean_temp_10k(i))^2 ) ...
+        - (4.381*10^(-2) .* (Casey_spr_mean_temp_10k(i))) ...
+        + 8.629;
+
+    elec_cond_dim_Davis_sum_10k(i) = ...
+        (6.257*10^(-5) .* (Davis_sum_mean_temp_10k(i))^2 ) ...
+        - (4.381*10^(-2) .* (Davis_sum_mean_temp_10k(i))) ...
+        + 8.629; 
+
+    elec_cond_dim_Davis_spr_10k(i) = ...
+        (6.257*10^(-5) .* (Davis_spr_mean_temp_10k(i))^2 ) ...
+        - (4.381*10^(-2) .* (Davis_spr_mean_temp_10k(i))) ...
+        + 8.629; 
+end
+
+% dim * stc = const
+% elec_con_stc = 28103; % Ohm.metre @ T = 300 K
+elec_cond_Casey_sum_10k = zeros(1,length(t));
+elec_cond_Casey_spr_10k = zeros(1,length(t));
+
+elec_cond_Davis_sum_10k = zeros(1,length(t));
+elec_cond_Davis_spr_10k = zeros(1,length(t));
+
+
+for i = 1:48 
+    elec_cond_Casey_sum_10k(i) = elec_cond_dim_Casey_sum_10k(i) .* elec_cond_stc;
+    elec_cond_Casey_spr_10k(i) = elec_cond_dim_Casey_spr_10k(i) .* elec_cond_stc;
+
+    elec_cond_Davis_sum_10k(i) = elec_cond_dim_Davis_sum_10k(i) .* elec_cond_stc;
+    elec_cond_Davis_spr_10k(i) = elec_cond_dim_Davis_spr_10k(i) .* elec_cond_stc;
+end
+
+% R_i = N * [(1/elec.(mean_temp)) + ((2.rcon)/(thick))] * (thick/area)
+% need to be very careful - make cosntants where possible 
+
+Casey_sum_R_i_10k = zeros(1,length(t)); % Ohms - resistance
+Casey_spr_R_i_10k = zeros(1,length(t));
+
+Davis_sum_R_i_10k = zeros(1,length(t));
+Davis_spr_R_i_10k = zeros(1,length(t));
+
+for i = 1:48
+    
+Casey_sum_R_i_10k(i) = N .* (thick/area) .* ...
+    ( (1 ./ elec_cond_Casey_sum_10k(i) ) + ( (2.*r_con)./ thick) );
+
+Casey_spr_R_i_10k(i) = N .* (thick/area) .* ...
+    ( (1 ./ elec_cond_Casey_spr_10k(i) ) + ( (2.*r_con)./ thick) );
+
+Davis_sum_R_i_10k(i) = N .* (thick/area) .* ...
+    ( (1 ./ elec_cond_Davis_sum_10k(i) ) + ( (2.*r_con)./ thick) );
+
+Davis_spr_R_i_10k(i) = N .* (thick/area) .* ...
+    ( (1 ./ elec_cond_Davis_spr_10k(i) ) + ( (2.*r_con)./ thick) );
+
+end
+
+figure(7)
+    hold on
+    grid on 
+    grid minor
+    plot(t,Casey_sum_R_i_10k)
+    plot(t,Casey_spr_R_i_10k)
+    plot(t,Davis_sum_R_i_10k)
+    plot(t,Davis_spr_R_i_10k)
+    ylabel('Internal Resistance [Ohms]')
+    xlabel('Time - 24 hour')
+    legend('Casey - Summer','Casey - Spring','Davis - Summer','Davis - Spring')
+    title('Internal Resistance in 1 Module - Wind = 10km/hr')
+    hold off
+
+%% Power Generation 
+% First calculate per module
+% Use Karabetoglu equation: [P = (V^2) /( 4*R_i)]
+
+%% Wind = 10km/hr
+    TEG_P_Casey_sum_10k = zeros(1,length(t));
+    TEG_P_Casey_spr_10k = zeros(1,length(t));
+    
+    TEG_P_Davis_sum_10k = zeros(1,length(t));
+    TEG_P_Davis_spr_10k = zeros(1,length(t));
+
+for i = 1:48
+    TEG_P_Casey_sum_10k(i) =  (TEG_V_Casey_sum_10k(i).^(2)) ./ ...
+                          (4 .* Casey_sum_R_i_10k(i)); 
+    
+    TEG_P_Casey_spr_10k(i) =  (TEG_V_Casey_spr_10k(i).^(2)) ./ ...
+                          (4 .* Casey_spr_R_i_10k(i)); 
+    
+    TEG_P_Davis_sum_10k(i) =  (TEG_V_Davis_sum_10k(i).^(2)) ./ ...
+                          (4 .* Davis_sum_R_i_10k(i));
+    
+    TEG_P_Davis_spr_10k(i) =  (TEG_V_Davis_spr_10k(i).^(2)) ./ ...
+                          (4 .* Davis_spr_R_i_10k(i));
+end
+
+figure(8)
+    hold on
+    grid on 
+    grid minor
+    plot(t,TEG_P_Casey_sum_10k)
+    plot(t,TEG_P_Casey_spr_10k)
+    plot(t,TEG_P_Davis_sum_10k)
+    plot(t,TEG_P_Davis_spr_10k)
+    ylabel('Power Rate [W]')
+    xlabel('Time - 24 hour')
+    legend('Casey - Summer','Casey - Spring','Davis - Summer','Davis - Spring')
+    title('TEG Power Generated per module - Karabetoglu et. al. 2012 [P^2/4R] - Wind = 10km/hr')
+    hold off
+
+
+% then calculate Power per PANEL - 17 x 18 ARRAY!
+% Voltages
+    TEG_V_row_Casey_sum_10k = zeros(1,length(t));
+    TEG_V_row_Casey_spr_10k = zeros(1,length(t));
+    
+    TEG_V_row_Davis_sum_10k = zeros(1,length(t));
+    TEG_V_row_Davis_spr_10k = zeros(1,length(t));
+
+% Ohms - resistance
+    Casey_sum_R_i_row_10k = zeros(1,length(t)); 
+    Casey_spr_R_i_row_10k = zeros(1,length(t));
+    
+    Davis_sum_R_i_row_10k = zeros(1,length(t));
+    Davis_spr_R_i_row_10k = zeros(1,length(t));
+
+% Currents
+    Casey_sum_amps_row_10k = zeros(1,length(t)); 
+    Casey_spr_amps_row_10k = zeros(1,length(t));
+    
+    Davis_sum_amps_row_10k = zeros(1,length(t));
+    Davis_spr_amps_row_10k = zeros(1,length(t));
+
+for i = 1:48 % 17 modules in 1 row
+% Voltages   
+    TEG_V_row_Casey_sum_10k(i) = TEG_V_Casey_sum_10k(i) .* 17; 
+    TEG_V_row_Casey_spr_10k(i) = TEG_V_Casey_spr_10k(i) .* 17; 
+    
+    TEG_V_row_Davis_sum_10k(i) = TEG_V_Davis_sum_10k(i) .* 17; 
+    TEG_V_row_Davis_spr_10k(i) = TEG_V_Davis_spr_10k(i) .* 17; 
+
+% Resistances
+    Casey_sum_R_i_row_10k(i) = Casey_sum_R_i_10k(i) .* 17;
+    Casey_spr_R_i_row_10k(i) = Casey_spr_R_i_10k(i) .* 17;
+    
+    Davis_sum_R_i_row_10k(i) = Davis_sum_R_i_10k(i) .* 17;
+    Davis_spr_R_i_row_10k(i) = Davis_spr_R_i_10k(i) .* 17;
+
+% Currents
+    Casey_sum_amps_row_10k(i) = ...
+        TEG_V_row_Casey_sum_10k(i) ./ Casey_sum_R_i_row_10k(i);
+
+    Casey_spr_amps_row_10k(i) = ...
+        TEG_V_row_Casey_spr_10k(i) ./ Casey_spr_R_i_row_10k(i);
+    
+
+    Davis_sum_amps_row_10k(i) = ...
+        TEG_V_row_Davis_sum_10k(i) ./ Davis_sum_R_i_row_10k(i);
+
+    Davis_spr_amps_row_10k(i) = ...
+        TEG_V_row_Davis_spr_10k(i) ./ Davis_spr_R_i_row_10k(i);
+
+end
+
+figure(9)
+    hold on
+    grid on 
+    grid minor
+    plot(t,TEG_V_row_Casey_sum_10k)
+    plot(t,TEG_V_row_Casey_spr_10k)
+    plot(t,TEG_V_row_Davis_sum_10k)
+    plot(t,TEG_V_row_Davis_spr_10k)
+    ylabel('TEG Voltage [V]')
+    xlabel('Time - 24 hour')
+    legend('Casey - Summer','Casey - Spring','Davis - Summer','Davis - Spring')
+    title('TEG Voltage per Row (Sum of V) - Wind = 10km/hr')
+    hold off
+
+figure(10)
+    hold on
+    grid on 
+    grid minor
+    plot(t,Casey_sum_R_i_row_10k)
+    plot(t,Casey_spr_R_i_row_10k)
+    plot(t,Davis_sum_R_i_row_10k)
+    plot(t,Davis_spr_R_i_row_10k)
+    ylabel('TEG Resistance [Ohms]')
+    xlabel('Time - 24 hour')
+    legend('Casey - Summer','Casey - Spring','Davis - Summer','Davis - Spring')
+    title('TEG Resistance per Row (Sum of R/Ohms) - Wind = 10km/hr')
+    hold off
+
+figure(11)
+    hold on
+    grid on 
+    grid minor
+    plot(t,Casey_sum_amps_row_10k)
+    plot(t,Casey_spr_amps_row_10k)
+    plot(t,Davis_sum_amps_row_10k)
+    plot(t,Davis_spr_amps_row_10k)
+    ylabel('TEG Current [Amps]')
+    xlabel('Time - 24 hour')
+    legend('Casey - Summer','Casey - Spring','Davis - Summer','Davis - Spring')
+    title('TEG Current per Row (V / R) - Wind = 10km/hr')
+    hold off
+
+    % in parallel aray 
+% 18 rows of 17 modules 
+% USING EQUATION [P = (V^2) / R] FOR THIS PART
+% equation  considerS TEG aray using Ohm's law
+% Karabetoglu is a conservative approach (1/4th of ohm's value)
+
+
+% Resistance
+    Casey_sum_R_i_full_10k = zeros(1,length(t)); 
+    Casey_spr_R_i_full_10k = zeros(1,length(t));
+    
+    Davis_sum_R_i_full_10k = zeros(1,length(t));
+    Davis_spr_R_i_full_10k = zeros(1,length(t));
+
+% Power
+    TEG_P_Casey_sum_full_10k = zeros(1,length(t));
+    TEG_P_Casey_spr_full_10k = zeros(1,length(t));
+    
+    TEG_P_Davis_sum_full_10k = zeros(1,length(t));
+    TEG_P_Davis_spr_full_10k = zeros(1,length(t));
+
+% recall - 18 rows - VOLTAGE IS EQUAL ACROSS ROWS!!!
+for i = 1:48
+% Resistance
+    Casey_sum_R_i_full_10k(i) = (18 ./ Casey_sum_R_i_row_10k(i) ).^-1 ;  
+    Casey_spr_R_i_full_10k(i) = (18 ./ Casey_spr_R_i_row_10k(i) ).^-1 ;
+    
+    Davis_sum_R_i_full_10k(i) = (18 ./ Davis_sum_R_i_row_10k(i) ).^-1 ;
+    Davis_spr_R_i_full_10k(i) = (18 ./ Davis_spr_R_i_row_10k(i) ).^-1 ;
+
+% Power - KARABETOGLU EQUATION
+    TEG_P_Casey_sum_full_10k(i) =  (TEG_V_row_Casey_sum_10k(i).^(2)) ./ ...
+                          (4.*Casey_sum_R_i_full_10k(i)); 
+    
+    TEG_P_Casey_spr_full_10k(i) =  (TEG_V_row_Casey_spr_10k(i).^(2)) ./ ...
+                          (4.*Casey_spr_R_i_full_10k(i)); 
+    
+    TEG_P_Davis_sum_full_10k(i) =  (TEG_V_row_Davis_sum_10k(i).^(2)) ./ ...
+                          (4.*Davis_sum_R_i_full_10k(i));
+    
+    TEG_P_Davis_spr_full_10k(i) =  (TEG_V_row_Davis_spr_10k(i).^(2)) ./ ...
+                          (4.*Davis_spr_R_i_full_10k(i));
+
+end
+
+figure(12)
+    hold on
+    grid on 
+    grid minor
+    plot(t,TEG_P_Casey_sum_full_10k)
+    plot(t,TEG_P_Casey_spr_full_10k)
+    plot(t,TEG_P_Davis_sum_full_10k)
+    plot(t,TEG_P_Davis_spr_full_10k)
+    ylabel('TEG Power [W]')
+    xlabel('Time - 24 hour')
+    legend('Casey - Summer','Casey - Spring','Davis - Summer','Davis - Spring')
+    title('TEG Power in Array (V^2 / 4.R) - Per 1 Solar Panel - [Wind 1 = 10km/hr]')
+    hold off
+
+
+%% Power Generation - Unit Area 
+% For power comparison metrics
+% in W/m^2
+surf_area = (0.056 * 0.056); % 56mm * 56 mm
+
+% 20 cases - compare per clouds case [5x]
+% "TEG_P_Casey_sum_80"
+
+% - [Wind = 10km/hr] - %
+TEG_P_Casey_sum_10k_unit = zeros(1,length(t));
+TEG_P_Casey_spr_10k_unit = zeros(1,length(t));
+
+TEG_P_Davis_sum_10k_unit = zeros(1,length(t));
+TEG_P_Davis_spr_10k_unit = zeros(1,length(t));
+
+for i = 1:48 
+
+    TEG_P_Casey_sum_10k_unit(i) = TEG_P_Casey_sum_10k(i) ./ surf_area;
+    TEG_P_Casey_spr_10k_unit(i) = TEG_P_Casey_spr_10k(i) ./ surf_area;
+
+    TEG_P_Davis_sum_10k_unit(i) = TEG_P_Davis_sum_10k(i) ./ surf_area;
+    TEG_P_Davis_spr_10k_unit(i) = TEG_P_Davis_spr_10k(i) ./ surf_area;
+
+    % Remember: this is with Karabetoglu equation (conservative)
+end
+
+figure(13)
+    hold on
+    grid on 
+    grid minor
+    plot(t,TEG_P_Casey_sum_10k_unit)
+    plot(t,TEG_P_Casey_spr_10k_unit)
+    plot(t,TEG_P_Davis_sum_10k_unit)
+    plot(t,TEG_P_Davis_spr_10k_unit)
+    ylabel('TEG Power [W]')
+    xlabel('Time - 24 hour')
+    legend('Casey - Summer','Casey - Spring','Davis - Summer','Davis - Spring')
+    title('TEG Power in Array (V^2 / 4.R) - Per Unit area - [Wind = 10km/hr]')
+    hold off    
