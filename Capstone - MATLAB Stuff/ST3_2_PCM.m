@@ -479,7 +479,7 @@ for i = 1:48
 
         air_k_Davis_sum(i) = A9_k(2) + ... air Prandtl # at time point
             ( A9_k(3) - A9_k(2) ) .* ...
-            ((Casey_summer_temp(i) - A9_Temp(2))./(A9_Temp(3)-A9_Temp(2)));
+            ((Davis_summer_temp(i) - A9_Temp(2))./(A9_Temp(3)-A9_Temp(2)));
 
         air_Pr_Davis_sum(i) = A9_Pr(2) + ... air Prandtl # at time point
             ( A9_Pr(3) - A9_Pr(2) ) .* ...
@@ -758,7 +758,7 @@ subplot(2,2,4)
 % Re = (rho * V * L) / (mu)
 % assume L = 1, unit area
 L_conv = 1;
-air_V  = 27.78; % m/s - 
+air_V  = 6.94; % m/s - 
 
 air_Re_Casey_sum      = zeros(1,length(t)); % Reynolds # for each point in time
 air_Nu_Casey_sum      = zeros(1,length(t)); % Nusselt # for each point in time
@@ -787,66 +787,66 @@ for i = 1:48
         (air_rho_Casey_sum(i) .* air_V .* L_conv) / ( air_mu_Casey_sum(i) );
 
     % LAMINAR VALUES ONLY
-        if air_Re_Casey_sum(i) < (500000)
+        % if air_Re_Casey_sum(i) < (500000)
             air_Nu_Casey_sum(i) = 0.664 .* ...
                 (air_Re_Casey_sum(i) .^(1/2) ) .* ( air_Pr_Casey_sum(i) ^ (1/3) ); 
  
-        elseif air_Re_Casey_sum(i) == (500000)
-            air_Nu_Casey_sum(i) = (air_Pr_Casey_sum(i) ^ (1/3)).* ...
-                (( 0.037 * (air_Re_Casey_sum(i).^(4/5) )) - 871);
-        else
-            air_Nu_Casey_sum(i) = (air_Pr_Casey_sum(i) .^ (1/3)).* ...
-                (( 0.037 .* (air_Re_Casey_sum(i).^(4/5) )));
-        end
+        % elseif air_Re_Casey_sum(i) == (500000)
+        %     air_Nu_Casey_sum(i) = (air_Pr_Casey_sum(i) ^ (1/3)).* ...
+        %         (( 0.037 * (air_Re_Casey_sum(i).^(4/5) )) - 871);
+        % else
+        %     air_Nu_Casey_sum(i) = (air_Pr_Casey_sum(i) .^ (1/3)).* ...
+        %         (( 0.037 .* (air_Re_Casey_sum(i).^(4/5) )));
+        % end
     
     % Casey Spring
     air_Re_Casey_spr(i)  = ...
         (air_rho_Casey_spr(i) .* air_V .* L_conv) / ( air_mu_Casey_spr(i) ); 
  
-        if air_Re_Casey_spr(i) < (500000)
+        % if air_Re_Casey_spr(i) < (500000)
             air_Nu_Casey_spr(i) = 0.664 .* ...
                 (air_Re_Casey_spr(i) .^(1/2) ) .* ( air_Pr_Casey_spr(i) ^ (1/3) ); 
  
-        elseif air_Re_Casey_spr(i) == (500000)
-            air_Nu_Casey_spr(i) = (air_Pr_Casey_spr(i) .^ (1/3)).* ...
-                (( 0.037 * (air_Re_Casey_spr(i).^(4/5) )) - 871);
-        else
-            air_Nu_Casey_spr(i) = (air_Pr_Casey_spr(i) .^ (1/3)).* ...
-                (( 0.037 * (air_Re_Casey_spr(i).^(4/5) )));
-        end
+        % elseif air_Re_Casey_spr(i) == (500000)
+        %     air_Nu_Casey_spr(i) = (air_Pr_Casey_spr(i) .^ (1/3)).* ...
+        %         (( 0.037 * (air_Re_Casey_spr(i).^(4/5) )) - 871);
+        % else
+        %     air_Nu_Casey_spr(i) = (air_Pr_Casey_spr(i) .^ (1/3)).* ...
+        %         (( 0.037 * (air_Re_Casey_spr(i).^(4/5) )));
+        % end
 
 
     % Davis Summer
     air_Re_Davis_sum(i)  = ...
         (air_rho_Davis_sum(i) .* air_V .* L_conv) / ( air_mu_Davis_sum(i) );
 
-        if air_Re_Davis_sum(i) < (500000)
+        % if air_Re_Davis_sum(i) < (500000)
             air_Nu_Davis_sum(i) = 0.664 .* ...
                 (air_Re_Davis_sum(i) .^(1/2) ) .* ( air_Pr_Davis_sum(i) ^ (1/3) ); 
  
-        elseif air_Re_Davis_sum(i) == (500000)
-            air_Nu_Davis_sum(i) = (air_Pr_Davis_sum(i) .^ (1/3)).* ...
-                (( 0.037 * (air_Re_Davis_sum(i).^(4/5) )) - 871);
-        else
-            air_Nu_Davis_sum(i) = (air_Pr_Davis_sum(i) .^ (1/3)).* ...
-                (( 0.037 .* (air_Re_Davis_sum(i).^(4/5) )));
-        end
+        % elseif air_Re_Davis_sum(i) == (500000)
+        %     air_Nu_Davis_sum(i) = (air_Pr_Davis_sum(i) .^ (1/3)).* ...
+        %         (( 0.037 * (air_Re_Davis_sum(i).^(4/5) )) - 871);
+        % else
+        %     air_Nu_Davis_sum(i) = (air_Pr_Davis_sum(i) .^ (1/3)).* ...
+        %         (( 0.037 .* (air_Re_Davis_sum(i).^(4/5) )));
+        % end
 
     % Davis Spring
     air_Re_Davis_spr(i)  = ...
         (air_rho_Davis_spr(i) .* air_V .* L_conv) / ( air_mu_Davis_spr(i) ); 
  
-        if air_Re_Davis_spr(i) < (500000)
+        % if air_Re_Davis_spr(i) < (500000)
             air_Nu_Davis_spr(i) = 0.664 .* ...
                 (air_Re_Davis_spr(i) .^(1/2) ) .* ( air_Pr_Davis_spr(i) ^ (1/3) ); 
  
-        elseif air_Re_Davis_spr(i) == (500000)
-            air_Nu_Davis_spr(i) = (air_Pr_Davis_spr(i) .^ (1/3)).* ...
-                (( 0.037 * (air_Re_Davis_spr(i).^(4/5) )) - 871);
-        else
-            air_Nu_Davis_spr(i) = (air_Pr_Davis_spr(i) .^ (1/3)).* ...
-                (( 0.037 .* (air_Re_Davis_spr(i).^(4/5) )));
-        end    
+        % elseif air_Re_Davis_spr(i) == (500000)
+        %     air_Nu_Davis_spr(i) = (air_Pr_Davis_spr(i) .^ (1/3)).* ...
+        %         (( 0.037 * (air_Re_Davis_spr(i).^(4/5) )) - 871);
+        % else
+        %     air_Nu_Davis_spr(i) = (air_Pr_Davis_spr(i) .^ (1/3)).* ...
+        %         (( 0.037 .* (air_Re_Davis_spr(i).^(4/5) )));
+        % end    
 
 end
 
@@ -1262,8 +1262,8 @@ for i = 2:25
         (Q_flux_PCM_int_e_Casey_sum(i-1))./(m_PCM*Cp_Liq);
 
     % Conservation of energy check
-    if  PCM_temp_Casey_sum(i) > Casey_summer_temp(i)
-        PCM_temp_Casey_sum(i) = Casey_summer_temp(i);
+    if  PCM_temp_Casey_sum(i) < Casey_Summer_wall_temp_2(i)
+        PCM_temp_Casey_sum(i) = Casey_Summer_wall_temp_2(i);
     end
 
 
@@ -1272,8 +1272,8 @@ for i = 2:25
         (Q_flux_PCM_int_e_Casey_spr(i-1))./(m_PCM*Cp_Sol);
     
     % check for conservation of energy
-    if  PCM_temp_Casey_spr(i) > Casey_spring_temp(i)
-        PCM_temp_Casey_spr(i) = Casey_spring_temp(i);
+    if  PCM_temp_Casey_spr(i) < Casey_Spring_wall_temp_2(i)
+        PCM_temp_Casey_spr(i) = Casey_Spring_wall_temp_2(i);
     end
 
 
@@ -1284,8 +1284,8 @@ for i = 2:25
     (Q_flux_PCM_int_e_Davis_sum(i-1))./(m_PCM*Cp_Liq);
 
     % Conservation of energy check
-    if  PCM_temp_Davis_sum(i) > Davis_summer_temp(i)
-        PCM_temp_Davis_sum(i) = Davis_summer_temp(i);
+    if  PCM_temp_Davis_sum(i) < Davis_Summer_wall_temp_2(i) % min - thermal floor
+        PCM_temp_Davis_sum(i) = Davis_Summer_wall_temp_2(i);
     end
 
 % Spring
@@ -1293,8 +1293,8 @@ for i = 2:25
     (Q_flux_PCM_int_e_Davis_spr(i-1))./(m_PCM*Cp_Sol);
     
     % Conservation of energy check
-    if  PCM_temp_Davis_spr(i) > Davis_spring_temp(i)
-        PCM_temp_Davis_spr(i) = Davis_spring_temp(i);
+    if  PCM_temp_Davis_spr(i) < Davis_Spring_wall_temp_2(i)
+        PCM_temp_Davis_spr(i) = Davis_Spring_wall_temp_2(i);
     end
 
 end
@@ -1440,7 +1440,34 @@ figure(23)
 
 
 %% wind = 6.94 m/s (25km/hr)
-% Re > 50,000 - 
+% define for PCM temp only - IN ONE CASE - 4 ROWS
+% CREATE TABLE OF VALUES - take note of format!!!
+%  PCM_TEMP_WIND_25K_ALL_LOC= [...
+%      (PCM_temp_Casey_sum); ...
+%      (PCM_temp_Casey_spr); ...
+%      (PCM_temp_Davis_sum); ...
+%      (PCM_temp_Davis_spr)];
+% % big ol matrix
+% 
+% % make file
+% filename_PCM_temp_wind_25k = "PCM_TEMP_WIND_25K_ALL_LOC.xlsx"; % make file
+% writematrix(PCM_TEMP_WIND_25K_ALL_LOC,filename_PCM_temp_wind_25k,...
+%             'Sheet',1); 
+
+%% wind = 13.89 m/s (50km/hr)
+% define for PCM temp only - IN ONE CASE - 4 ROWS
+% CREATE TABLE OF VALUES - take note of format!!!
+%  PCM_TEMP_WIND_50K_ALL_LOC= [...
+%      (PCM_temp_Casey_sum); ...
+%      (PCM_temp_Casey_spr); ...
+%      (PCM_temp_Davis_sum); ...
+%      (PCM_temp_Davis_spr)];
+% % big ol matrix
+% 
+% % make file
+% filename_PCM_temp_wind_50k = "PCM_TEMP_WIND_50K_ALL_LOC.xlsx"; % make file
+% writematrix(PCM_TEMP_WIND_50K_ALL_LOC,filename_PCM_temp_wind_50k,...
+%             'Sheet',1);
 
 %% wind = 27.78 m/s (100km/hr)
 % currently wind = 27.78 m/s
