@@ -758,7 +758,7 @@ subplot(2,2,4)
 % Re = (rho * V * L) / (mu)
 % assume L = 1, unit area
 L_conv = 1;
-air_V  = 6.94; % m/s - 
+air_V  = 2.78; % m/s - 
 
 air_Re_Casey_sum      = zeros(1,length(t)); % Reynolds # for each point in time
 air_Nu_Casey_sum      = zeros(1,length(t)); % Nusselt # for each point in time
