@@ -159,6 +159,8 @@ PCM_temp_Davis_Spr_10k = PCM_TEMP_WIND_10K_ALL_LOC(4,:);
 % sanity check - plot irradiance values
 figure(2)
 hold on
+grid on
+grid minor
 plot(t,PCM_temp_Casey_Sum_10k)
 plot(t,PCM_temp_Casey_Spr_10k)
 plot(t,PCM_temp_Davis_Sum_10k)

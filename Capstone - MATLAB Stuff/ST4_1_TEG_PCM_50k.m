@@ -144,7 +144,7 @@ hold off
 % recall: readtable and table2array functions
 %% [Wind = 25km]
 PCM_TEMP_WIND_50K_ALL_LOC = ...
-    readtable("PCM_TEMP_WIND_25K_ALL_LOC.xlsx");
+    readtable("PCM_TEMP_WIND_50K_ALL_LOC.xlsx");
 
 PCM_TEMP_WIND_50K_ALL_LOC = ...
     table2array(PCM_TEMP_WIND_50K_ALL_LOC);
@@ -159,6 +159,8 @@ PCM_temp_Davis_Spr_50k = PCM_TEMP_WIND_50K_ALL_LOC(4,:);
 % sanity check - plot irradiance values
 figure(2)
 hold on
+grid on
+grid minor
 plot(t,PCM_temp_Casey_Sum_50k)
 plot(t,PCM_temp_Casey_Spr_50k)
 plot(t,PCM_temp_Davis_Sum_50k)
