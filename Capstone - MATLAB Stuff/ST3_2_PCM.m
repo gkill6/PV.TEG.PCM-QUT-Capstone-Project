@@ -1441,3 +1441,19 @@ figure(23)
 
 %% wind = 6.94 m/s (25km/hr)
 % Re > 50,000 - 
+
+%% wind = 83.33 m/s (300km/hr)
+% currently wind = 83.33 m/s
+% define for PCM temp only - IN ONE CASE - 4 ROWS
+% CREATE TABLE OF VALUES - take note of format!!!
+%  PCM_TEMP_WIND_300K_ALL_LOC= [...
+%      (PCM_temp_Casey_sum); ...
+%      (PCM_temp_Casey_spr); ...
+%      (PCM_temp_Davis_sum); ...
+%      (PCM_temp_Davis_spr)];
+% % big ol matrix
+% 
+% % make file
+% filename_PCM_temp_wind_300k = "PCM_TEMP_WIND_300K_ALL_LOC.xlsx"; % make file
+% writematrix(PCM_TEMP_WIND_300K_ALL_LOC,filename_PCM_temp_wind_300k,...
+%             'Sheet',1);
