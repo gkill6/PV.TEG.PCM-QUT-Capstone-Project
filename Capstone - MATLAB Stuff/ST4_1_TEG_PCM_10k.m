@@ -10,7 +10,7 @@
 % Copy logic from ST4_1_PV_TEG
 
 
-
+% GONNA LEAVE THIS FOR 10K WIND ONLY!!! - RENAME!!!
 
 %% 1) Set baseline temperatures - AMBIENT TEMPERATURES - "TOP SIDE"
 % Time vector - discretisation of 24-hour window 
@@ -142,6 +142,7 @@ hold off
 % 6 cases x 2 seasons x 2 locations = 24 cases
 
 % recall: readtable and table2array functions
+%% [Wind = 10km]
 PCM_TEMP_WIND_10K_ALL_LOC = ...
     readtable("PCM_TEMP_WIND_10K_ALL_LOC.xlsx");
 
@@ -167,6 +168,7 @@ xlabel('Time - 24 hr')
 ylabel('PCM Temp')
 title('PCM Temperature - Wind = 10k')
 hold off
+
 
 %% 3) Establish average temperature and temp diff
 % ---- % [Wind = 10km/hr (v = 2.78 m/s)] % ---- %
@@ -729,4 +731,8 @@ figure(13)
     xlabel('Time - 24 hour')
     legend('Casey - Summer','Casey - Spring','Davis - Summer','Davis - Spring')
     title('TEG Power in Array (V^2 / 4.R) - Per Unit area - [Wind = 10km/hr]')
-    hold off    
+    hold off
+
+
+
+
