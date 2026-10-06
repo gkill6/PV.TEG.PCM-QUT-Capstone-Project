@@ -274,9 +274,9 @@ figure(5)
     hold on
     grid on 
     grid minor
-    plot(t,Davis_spr_mean_temp_10k)
-    plot(t,Davis_spring_temp)
-    plot(t,PCM_temp_Davis_Spr_10k)
+    plot(t,Casey_spr_mean_temp_10k)
+    plot(t,Casey_spring_temp)
+    plot(t,PCM_temp_Casey_Spr_10k)
     ylabel('Temp [C]')
     xlabel('Time - 24 hour')
     legend('Mean Temp across TEG','Ambient Temp','PCM Temp')
@@ -287,17 +287,5 @@ figure(5)
 % 24 cases to consider 
 % 6x wind cases
 
-%% TEG Voltage 
-% V = N * seebck.(average temp) * temp_diff
-N = 241; % number of p&n type conductors
-
-% Seebeck
-% dimensionless seebeck equation
-% ~ =  (-1.132*10^(-5) .* (Casey_mean_temp)^2 )...
-% + (8.64*10^(-3) .* (Casey_mean_temp(i))) ...
-% - 0.582;
-
-
-% seebeck variable across 24/hour cycle
 
 %% -- %% -- %% TEG INTERNAL RESISTANCE %% -- %% -- %%
