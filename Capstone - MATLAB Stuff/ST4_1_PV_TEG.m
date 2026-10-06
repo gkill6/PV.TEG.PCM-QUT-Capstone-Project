@@ -1,8 +1,12 @@
 %% --- % ST4.1 PV/TEG CODE % --- %%
-% This is the TEG Code at the "1-to-1" level {PV/TEG} or {TEG/PCM}
+% This is the TEG Code at the "1-to-1" level for {PV/TEG}
 
 % For PV/TEG, PV solar data must be imported
 % PV Data includes 20 sets [2 stations] x [2 seasons] x [5x cloud cover cases]
+
+
+% For all intensive purpose, this investigates TEG power only
+
 
 clc;
 clear all;

@@ -426,7 +426,7 @@ for i = 1:48
 
         air_rho_Casey_spr(i) = A9_rho(6) + ... air density at time point
             ( A9_rho(7) - A9_rho(6) ) .* ...
-            ((Casey_sring_temp(i) - A9_Temp(6))./(A9_Temp(7)-A9_Temp(6)));
+            ((Casey_spring_temp(i) - A9_Temp(6))./(A9_Temp(7)-A9_Temp(6)));
     
         air_mu_Casey_spr(i) = A9_mu(6) + ... air mu at time point
             ( A9_mu(7) - A9_mu(6) ) .* ...
@@ -758,7 +758,7 @@ subplot(2,2,4)
 % Re = (rho * V * L) / (mu)
 % assume L = 1, unit area
 L_conv = 1;
-air_V  = 2.78; % m/s - considering no wind at first 
+air_V  = 83.33; % m/s - 
 
 air_Re_Casey_sum      = zeros(1,length(t)); % Reynolds # for each point in time
 air_Nu_Casey_sum      = zeros(1,length(t)); % Nusselt # for each point in time
@@ -1246,11 +1246,11 @@ m_PCM = PCM_den * PCM_vol;
 
     % initialise = thermal equilibirum
 
-PCM_temp_Casey_sum(1) = Casey_Summer_wall_temp_2(i);
-PCM_temp_Casey_spr(1) = Casey_Spring_wall_temp_2(i);
+PCM_temp_Casey_sum(1) = Casey_Summer_wall_temp_2(1);
+PCM_temp_Casey_spr(1) = Casey_Spring_wall_temp_2(1);
 
-PCM_temp_Davis_sum(1) = Davis_Summer_wall_temp_2(i);
-PCM_temp_Davis_spr(1) = Davis_Spring_wall_temp_2(i);
+PCM_temp_Davis_sum(1) = Davis_Summer_wall_temp_2(1);
+PCM_temp_Davis_spr(1) = Davis_Spring_wall_temp_2(1);
 
 % temperature is equivalent to amount of heat added / heat capacity 
 
@@ -1259,46 +1259,43 @@ for i = 2:25
 % --- CASEY STATION --- %
 % summer
     PCM_temp_Casey_sum(i) = PCM_temp_Casey_sum(i-1) + ...
-        (Q_flux_PCM_int_e_Casey_sum(i-1))/(m_PCM*Cp_Liq);
+        (Q_flux_PCM_int_e_Casey_sum(i-1))./(m_PCM*Cp_Liq);
 
     % Conservation of energy check
-    if  PCM_temp_Casey_sum(i) > max(Casey_summer_temp)
-        PCM_temp_Casey_sum(i) = max(Casey_summer_temp);
+    if  PCM_temp_Casey_sum(i) > Casey_summer_temp(i)
+        PCM_temp_Casey_sum(i) = Casey_summer_temp(i);
     end
 
 
 % spring
     PCM_temp_Casey_spr(i) = PCM_temp_Casey_spr(i-1) + ...
-        (Q_flux_PCM_int_e_Casey_spr(i-1))/(m_PCM*Cp_Sol);
+        (Q_flux_PCM_int_e_Casey_spr(i-1))./(m_PCM*Cp_Sol);
     
     % check for conservation of energy
     if  PCM_temp_Casey_spr(i) > Casey_spring_temp(i)
         PCM_temp_Casey_spr(i) = Casey_spring_temp(i);
     end
 
- 
+
 % --- DAVIS STATION --- %
 
 % Summer
     PCM_temp_Davis_sum(i) = PCM_temp_Davis_sum(i-1) + ...
-    (Q_flux_PCM_int_e_Davis_sum(i-1))/(m_PCM*Cp_Liq);
+    (Q_flux_PCM_int_e_Davis_sum(i-1))./(m_PCM*Cp_Liq);
 
     % Conservation of energy check
-    if  PCM_temp_Davis_sum(i) > max(Davis_summer_temp)
-        PCM_temp_Davis_sum(i) = max(Davis_summer_temp);
+    if  PCM_temp_Davis_sum(i) > Davis_summer_temp(i)
+        PCM_temp_Davis_sum(i) = Davis_summer_temp(i);
     end
-
-
 
 % Spring
     PCM_temp_Davis_spr(i) = PCM_temp_Davis_spr(i-1) + ...
-    (Q_flux_PCM_int_e_Davis_spr(i-1))/(m_PCM*Cp_Sol);
+    (Q_flux_PCM_int_e_Davis_spr(i-1))./(m_PCM*Cp_Sol);
     
     % Conservation of energy check
     if  PCM_temp_Davis_spr(i) > Davis_spring_temp(i)
         PCM_temp_Davis_spr(i) = Davis_spring_temp(i);
     end
-
 
 end
 
@@ -1311,34 +1308,25 @@ for i = 26:48
         (Q_flux_PCM_int_e_Casey_sum(i-1))/(m_PCM*Cp_Liq);
     
     % Energy Check
-    if  PCM_temp_Casey_sum(i) > max(Casey_summer_temp)
-        PCM_temp_Casey_sum(i) = max(Casey_summer_temp);
+    if  PCM_temp_Casey_sum(i) > Casey_Summer_wall_temp_2(i)
+        PCM_temp_Casey_sum(i) = Casey_Summer_wall_temp_2(i);
     end
     
-    if  PCM_temp_Casey_sum(i) < min(Casey_summer_temp)
-        PCM_temp_Casey_sum(i) = min(Casey_summer_temp);
-    end
-
-    % force temp back to ambient
-    if (Q_flux_PCM_int_e_Casey_sum(i-1) == 0) && ...
-            (PCM_temp_Casey_sum(i) ~= Casey_summer_temp(i))
-    
+    if  PCM_temp_Casey_sum(i) < Casey_summer_temp(i)
         PCM_temp_Casey_sum(i) = Casey_summer_temp(i);
-
     end
-
 
 % Spring
     PCM_temp_Casey_spr(i) = PCM_temp_Casey_spr(i-1) + ...
         (Q_flux_PCM_int_e_Casey_spr(i-1))/(m_PCM*Cp_Sol);
     
     % Energy Check
-    if  PCM_temp_Casey_spr(i) > max(Casey_spring_temp)
-        PCM_temp_Casey_spr(i) = max(Casey_spring_temp);
+    if  PCM_temp_Casey_spr(i) > Casey_Spring_wall_temp_2(i)
+        PCM_temp_Casey_spr(i) = Casey_Spring_wall_temp_2(i);
     end
 
-    if  PCM_temp_Casey_spr(i) < min(Casey_spring_temp)
-        PCM_temp_Casey_spr(i) = min(Casey_spring_temp);
+    if  PCM_temp_Casey_spr(i) < Casey_spring_temp(i)
+        PCM_temp_Casey_spr(i) = Casey_spring_temp(i);
     end
 
 
@@ -1349,37 +1337,27 @@ for i = 26:48
     (Q_flux_PCM_int_e_Davis_sum(i-1))/(m_PCM*Cp_Liq);
     
     % Energy Check
-    if  PCM_temp_Davis_sum(i) > max(Davis_summer_temp)
-        PCM_temp_Davis_sum(i) = max(Davis_summer_temp);
+    if  PCM_temp_Davis_sum(i) > Davis_Summer_wall_temp_2(i)
+        PCM_temp_Davis_sum(i) = Davis_Summer_wall_temp_2(i);
     end
     
-    if  PCM_temp_Davis_sum(i) < min(Davis_summer_temp)
-        PCM_temp_Davis_sum(i) = min(Davis_summer_temp);
-    end
-
-    % force temp back to ambient
-    if (Q_flux_PCM_int_e_Davis_sum(i-1) == 0) && ...
-            (PCM_temp_Davis_sum(i) ~= Davis_summer_temp(i))
-    
+    if  PCM_temp_Davis_sum(i) < Davis_summer_temp(i)
         PCM_temp_Davis_sum(i) = Davis_summer_temp(i);
-
     end
+
 
 % Spring
     PCM_temp_Davis_spr(i) = PCM_temp_Davis_spr(i-1) + ...
     (Q_flux_PCM_int_e_Davis_spr(i-1))/(m_PCM*Cp_Sol);
 
     % Energy Check
-    if  PCM_temp_Davis_spr(i) > max(Davis_spring_temp)
-        PCM_temp_Davis_spr(i) = max(Davis_spring_temp);
+    if  PCM_temp_Davis_spr(i) > Davis_Spring_wall_temp_2(i)
+        PCM_temp_Davis_spr(i) = Davis_Spring_wall_temp_2(i);
     end
 
-    if  PCM_temp_Davis_spr(i) < min(Davis_spring_temp)
-        PCM_temp_Davis_spr(i) = min(Davis_spring_temp);
+    if  PCM_temp_Davis_spr(i) < Davis_spring_temp(i)
+        PCM_temp_Davis_spr(i) = Davis_spring_temp(i);
     end
-
-
-
 
 end
 
@@ -1443,3 +1421,23 @@ figure(23)
     legend('PCM temp','Ambient','Wall 2 (~1)')
     title('Temp: PCM vs walls vs ambient - Davis, Spring')
     hold off
+
+%% DATA EXPORT SECTION - RUN ITERATIVELY (DOUBLE CHECK VALUES!!)
+% currently wind = 2.78 m/s
+% define for PCM temp only - IN ONE CASE - 4 ROWS
+% CREATE TABLE OF VALUES - take note of format!!!
+%  PCM_TEMP_WIND_10K_ALL_LOC= [...
+%      (PCM_temp_Casey_sum); ...
+%      (PCM_temp_Casey_spr); ...
+%      (PCM_temp_Davis_sum); ...
+%      (PCM_temp_Davis_spr)];
+% % big ol matrix
+% 
+% % make file
+% filename_PCM_temp_wind_10k = "PCM_TEMP_WIND_10K_ALL_LOC.xlsx"; % make file
+% writematrix(PCM_TEMP_WIND_10K_ALL_LOC,filename_PCM_temp_wind_10k,...
+%             'Sheet',1);
+
+
+%% wind = 6.94 m/s (25km/hr)
+% Re > 50,000 - 
