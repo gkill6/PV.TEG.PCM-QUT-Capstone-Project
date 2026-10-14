@@ -758,7 +758,7 @@ subplot(2,2,4)
 % Re = (rho * V * L) / (mu)
 % assume L = 1, unit area
 L_conv = 1;
-air_V  = 2.78; % m/s - 
+air_V  = 1.39; % m/s - 
 
 air_Re_Casey_sum      = zeros(1,length(t)); % Reynolds # for each point in time
 air_Nu_Casey_sum      = zeros(1,length(t)); % Nusselt # for each point in time
@@ -1423,7 +1423,23 @@ figure(23)
     hold off
 
 %% DATA EXPORT SECTION - RUN ITERATIVELY (DOUBLE CHECK VALUES!!)
-% currently wind = 2.78 m/s
+% define for PCM temp only - IN ONE CASE - 4 ROWS
+% CREATE TABLE OF VALUES - take note of format!!!
+ PCM_TEMP_WIND_5K_ALL_LOC= [...
+     (PCM_temp_Casey_sum); ...
+     (PCM_temp_Casey_spr); ...
+     (PCM_temp_Davis_sum); ...
+     (PCM_temp_Davis_spr)];
+% big ol matrix
+
+% make file
+filename_PCM_temp_wind_5k = "PCM_TEMP_WIND_5K_ALL_LOC.xlsx"; % make file
+writematrix(PCM_TEMP_WIND_5K_ALL_LOC,filename_PCM_temp_wind_5k,...
+            'Sheet',1);
+
+
+
+%% currently wind = 2.78 m/s
 % define for PCM temp only - IN ONE CASE - 4 ROWS
 % CREATE TABLE OF VALUES - take note of format!!!
 %  PCM_TEMP_WIND_10K_ALL_LOC= [...

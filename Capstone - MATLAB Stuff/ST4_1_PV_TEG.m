@@ -971,11 +971,7 @@ N = 241; % number of p&n type conductors
 % seebeck variable across 24/hour cycle
 
 %% --- % --- % [0% Clouds] % --- % --- %
-seebeck_dim_Casey_sum = zeros(1,length(t));
-seebeck_dim_Casey_spr = zeros(1,length(t));
 
-seebeck_dim_Davis_sum = zeros(1,length(t));
-seebeck_dim_Davis_spr = zeros(1,length(t));
 
 
 % temperatures need to be in KELVIN to work
@@ -988,6 +984,14 @@ for i = 1:48
     Davis_spr_mean_temp(i) = Davis_spr_mean_temp(i) + 273.15;
 end
 % Celsius 2 Kelvin!!
+
+
+seebeck_dim_Casey_sum = zeros(1,length(t));
+seebeck_dim_Casey_spr = zeros(1,length(t));
+
+seebeck_dim_Davis_sum = zeros(1,length(t));
+seebeck_dim_Davis_spr = zeros(1,length(t));
+
 
 for i = 1:48
     seebeck_dim_Casey_sum(i) = ...
