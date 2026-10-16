@@ -19,10 +19,10 @@ Action: Created DD5.1 Doc; Compelted V&V-I4.1
 - Simulate PV/TEG/PCM cases [15/10 - 1:57am]
    + Note efficiency changes
    + Probe power consumption (like Kym said, to help with battery heatage) 
-Actions to do: 
 
 + Tidy data up into TD5.1 document 
    > Use to fill/complete V&V-I5.1 (metrics are complete)
+Actions to do: 
 
 + Start report/writing
    > Reflections on investigation/observation/reflections as professional engineer
