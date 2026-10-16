@@ -1602,9 +1602,9 @@ for i = 1:48
         ( (1 ./ elec_cond_Casey_sum_02(i) ) + ( (2.*r_con)./ thick) );
     Casey_spr_R_i_02(i) = N .* (thick/area) .* ...
         ( (1 ./ elec_cond_Casey_spr_02(i) ) + ( (2.*r_con)./ thick) );
-    Davis_sum_R_i_01(i) = N .* (thick/area) .* ...
+    Davis_sum_R_i_02(i) = N .* (thick/area) .* ...
         ( (1 ./ elec_cond_Davis_sum_02(i) ) + ( (2.*r_con)./ thick) );
-    Davis_spr_R_i_01(i) = N .* (thick/area) .* ...
+    Davis_spr_R_i_02(i) = N .* (thick/area) .* ...
         ( (1 ./ elec_cond_Davis_spr_02(i) ) + ( (2.*r_con)./ thick) );
 % Case 3
     Casey_sum_R_i_03(i) = N .* (thick/area) .* ...
@@ -3414,7 +3414,7 @@ end
 % FIND PER PANEL POWER OF TEG 
 % SUM ITERATIVELY BASED ON PROTOTYPE (30X30 FOLDOUT)
 
-    % [0% Clouds]:[Wind = 5,10,25,50]
+% [0% Clouds]:[Wind = 5,10,25,50]
 % 0% Clouds 01:04
 % ------------------------------------------------------------------------------------------------------------------------------------%
 % First calculate per module
@@ -5092,6 +5092,13 @@ for i = 1:48
 end
 
 
+
+
+%%
+
+figure(100)
+plot(t,TEG_P_Davis_sum_full_02)
+plot(t,TEG_P_Davis_spr_full_02)
     
 %% DATA EXPORT !!!!
 % ---- % [CASEY/SUM - 01:20] % ---- %

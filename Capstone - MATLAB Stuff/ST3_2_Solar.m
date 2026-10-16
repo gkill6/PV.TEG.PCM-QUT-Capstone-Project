@@ -934,15 +934,15 @@ figure(13)
 hold on
 grid on 
 grid minor
-plot(t,P_gen_Casey_summer_unit_area)
-plot(t,P_gen_Casey_summer_unit_area_cloud_20)
-plot(t,P_gen_Casey_summer_unit_area_cloud_40)
-plot(t,P_gen_Casey_summer_unit_area_cloud_60)
-plot(t,P_gen_Casey_summer_unit_area_cloud_80)
+plot(t,P_gen_Casey_summer)
+plot(t,P_gen_Casey_summer_cloud_20)
+plot(t,P_gen_Casey_summer_cloud_40)
+plot(t,P_gen_Casey_summer_cloud_60)
+plot(t,P_gen_Casey_summer_cloud_80)
 legend('0% Clouds','20% Clouds','40% Clouds','60% Clouds','80% Clouds')
 xlabel('Time - 24 hr')
-ylabel('Power Gen per unit area (W/m.^2)')
-title('Casey - Summer - Power Generated per unit area')
+ylabel('Power Gen per panek (W)')
+title('Casey - Summer - Power Generated per panel ')
 hold off
 
 % Casey - spring 
@@ -965,15 +965,15 @@ figure(15)
 hold on
 grid on 
 grid minor
-plot(t,P_gen_Casey_spring_unit_area)
-plot(t,P_gen_Casey_spring_unit_area_cloud_20)
-plot(t,P_gen_Casey_spring_unit_area_cloud_40)
-plot(t,P_gen_Casey_spring_unit_area_cloud_60)
-plot(t,P_gen_Casey_spring_unit_area_cloud_80)
+plot(t,P_gen_Casey_spring)
+plot(t,P_gen_Casey_spring_cloud_20)
+plot(t,P_gen_Casey_spring_cloud_40)
+plot(t,P_gen_Casey_spring_cloud_60)
+plot(t,P_gen_Casey_spring_cloud_80)
 legend('0% Clouds','20% Clouds','40% Clouds','60% Clouds','80% Clouds')
 xlabel('Time - 24 hr')
-ylabel('Power Gen per unit area (W/m.^2)')
-title('Casey - Spring - Power Generated per unit area')
+ylabel('Power Gen per panel (W)')
+title('Casey - Spring - Power Generated per panel')
 hold off
 
 % Davis - Summer
@@ -996,15 +996,15 @@ figure(17)
 hold on
 grid on 
 grid minor
-plot(t,P_gen_Casey_summer_unit_area)
-plot(t,P_gen_Casey_summer_unit_area_cloud_20)
-plot(t,P_gen_Casey_summer_unit_area_cloud_40)
-plot(t,P_gen_Casey_summer_unit_area_cloud_60)
-plot(t,P_gen_Casey_summer_unit_area_cloud_80)
+plot(t,P_gen_Davis_summer)
+plot(t,P_gen_Davis_summer_cloud_20)
+plot(t,P_gen_Davis_summer_cloud_40)
+plot(t,P_gen_Davis_summer_cloud_60)
+plot(t,P_gen_Davis_summer_cloud_80)
 legend('0% Clouds','20% Clouds','40% Clouds','60% Clouds','80% Clouds')
 xlabel('Time - 24 hr')
-ylabel('Power Gen per unit area (W/m.^2)')
-title('Casey - Summer - Power Generated per unit area')
+ylabel('Power Gen per panel (W)')
+title('Davis - Summer - Power Generated per panel')
 hold off
 
 % Davis - Spring
@@ -1027,15 +1027,15 @@ figure(19)
 hold on
 grid on 
 grid minor
-plot(t,P_gen_Davis_spring_unit_area)
-plot(t,P_gen_Davis_spring_unit_area_cloud_20)
-plot(t,P_gen_Davis_spring_unit_area_cloud_40)
-plot(t,P_gen_Davis_spring_unit_area_cloud_60)
-plot(t,P_gen_Davis_spring_unit_area_cloud_80)
+plot(t,P_gen_Davis_spring)
+plot(t,P_gen_Davis_spring_cloud_20)
+plot(t,P_gen_Davis_spring_cloud_40)
+plot(t,P_gen_Davis_spring_cloud_60)
+plot(t,P_gen_Davis_spring_cloud_80)
 legend('0% Clouds','20% Clouds','40% Clouds','60% Clouds','80% Clouds')
 xlabel('Time - 24 hr')
-ylabel('Power Gen per unit area (W/m.^2)')
-title('Davis - Spring - Power Generated per unit area')
+ylabel('Power Gen per panel(W)')
+title('Davis - Spring - Power Generated per panel')
 hold off
 
 
@@ -1163,45 +1163,45 @@ hold off
 % need to separate into cases 
 % ambient temperatures the same - IRRADIANCE VARIATIONS
 
-%% CASEY - SUMMER - CLOUDS 0-80%
-% Figure 12
-% CREATE TABLE OF VALUES 
-CASEY_SUMMER_IRRADIANCE_ALL_CASES = ...
-    [(Casey_summer_irradiance); (Casey_summer_irradiance_cloud_20);...
-    (Casey_summer_irradiance_cloud_40); ...
-    (Casey_summer_irradiance_cloud_60);(Casey_summer_irradiance_cloud_80)];
-% big ol matrix
-
-filename_d_sum = "CASEY_SUMMER_IRRADIANCE_ALL_CASES.xlsx"; % make file
-writematrix(CASEY_SUMMER_IRRADIANCE_ALL_CASES,filename_d_sum,...
-            'Sheet',1);
-
-%% CASEY - SPRING - CLOUDS 0-80%
-% Figure 12
-% CREATE TABLE OF VALUES 
-CASEY_SPRING_IRRADIANCE_ALL_CASES = ...
-    [(Casey_spring_irradiance); (Casey_spring_irradiance_cloud_20);...
-    (Casey_spring_irradiance_cloud_40); ...
-    (Casey_spring_irradiance_cloud_60);(Casey_spring_irradiance_cloud_80)];
-% big ol matrix
-
-filename_c_spr = "CASEY_SPRING_IRRADIANCE_ALL_CASES.xlsx"; % make file
-writematrix(CASEY_SPRING_IRRADIANCE_ALL_CASES,filename_c_spr,...
-            'Sheet',1);
-
-%% DAVIS - SUMMER - CLOUDS 0-80%
-% Figure 12
-% CREATE TABLE OF VALUES 
-DAVIS_SUMMER_IRRADIANCE_ALL_CASES = ...
-    [(Davis_summer_irradiance); (Davis_summer_irradiance_cloud_20);...
-    (Davis_summer_irradiance_cloud_40); ...
-    (Davis_summer_irradiance_cloud_60);(Davis_summer_irradiance_cloud_80)];
-% big ol matrix
-
-filename_d_sum = "DAVIS_SUMMER_IRRADIANCE_ALL_CASES.xlsx"; % make file
-writematrix(DAVIS_SUMMER_IRRADIANCE_ALL_CASES,filename_d_sum,...
-            'Sheet',1);
-
+% %% CASEY - SUMMER - CLOUDS 0-80%
+% % Figure 12
+% % CREATE TABLE OF VALUES 
+% CASEY_SUMMER_IRRADIANCE_ALL_CASES = ...
+%     [(Casey_summer_irradiance); (Casey_summer_irradiance_cloud_20);...
+%     (Casey_summer_irradiance_cloud_40); ...
+%     (Casey_summer_irradiance_cloud_60);(Casey_summer_irradiance_cloud_80)];
+% % big ol matrix
+% 
+% filename_d_sum = "CASEY_SUMMER_IRRADIANCE_ALL_CASES.xlsx"; % make file
+% writematrix(CASEY_SUMMER_IRRADIANCE_ALL_CASES,filename_d_sum,...
+%             'Sheet',1);
+% 
+% %% CASEY - SPRING - CLOUDS 0-80%
+% % Figure 12
+% % CREATE TABLE OF VALUES 
+% CASEY_SPRING_IRRADIANCE_ALL_CASES = ...
+%     [(Casey_spring_irradiance); (Casey_spring_irradiance_cloud_20);...
+%     (Casey_spring_irradiance_cloud_40); ...
+%     (Casey_spring_irradiance_cloud_60);(Casey_spring_irradiance_cloud_80)];
+% % big ol matrix
+% 
+% filename_c_spr = "CASEY_SPRING_IRRADIANCE_ALL_CASES.xlsx"; % make file
+% writematrix(CASEY_SPRING_IRRADIANCE_ALL_CASES,filename_c_spr,...
+%             'Sheet',1);
+% 
+% %% DAVIS - SUMMER - CLOUDS 0-80%
+% % Figure 12
+% % CREATE TABLE OF VALUES 
+% DAVIS_SUMMER_IRRADIANCE_ALL_CASES = ...
+%     [(Davis_summer_irradiance); (Davis_summer_irradiance_cloud_20);...
+%     (Davis_summer_irradiance_cloud_40); ...
+%     (Davis_summer_irradiance_cloud_60);(Davis_summer_irradiance_cloud_80)];
+% % big ol matrix
+% 
+% filename_d_sum = "DAVIS_SUMMER_IRRADIANCE_ALL_CASES.xlsx"; % make file
+% writematrix(DAVIS_SUMMER_IRRADIANCE_ALL_CASES,filename_d_sum,...
+%             'Sheet',1);
+% 
 %% DAVIS - SPRING - CLOUDS 0-80%
 % Figure 12
 % CREATE TABLE OF VALUES 
@@ -1213,4 +1213,26 @@ DAVIS_SPRING_IRRADIANCE_ALL_CASES = ...
 
 filename_d_spr = "DAVIS_SPRING_IRRADIANCE_ALL_CASES.xlsx"; % make file
 writematrix(DAVIS_SPRING_IRRADIANCE_ALL_CASES,filename_d_spr,...
+            'Sheet',1);
+%% Export PANEL DATA!!!!
+
+PANEL_POWER_ALL_CLOUD_CASES = ...
+    [(P_gen_Casey_summer);(P_gen_Casey_summer_cloud_20);...
+    (P_gen_Casey_summer_cloud_40);(P_gen_Casey_summer_cloud_60);...
+    (P_gen_Casey_summer_cloud_80);...
+    ...
+    (P_gen_Casey_spring);(P_gen_Casey_spring_cloud_20);...
+    (P_gen_Casey_spring_cloud_40);(P_gen_Casey_spring_cloud_60);...
+    (P_gen_Casey_spring_cloud_80);...
+    ...
+    (P_gen_Davis_summer);(P_gen_Davis_summer_cloud_20);...
+    (P_gen_Davis_summer_cloud_40);(P_gen_Davis_summer_cloud_60);...
+    (P_gen_Davis_summer_cloud_80);...
+    ...
+    (P_gen_Davis_spring);(P_gen_Davis_spring_cloud_20);...
+    (P_gen_Davis_spring_cloud_40);(P_gen_Davis_spring_cloud_60);...
+    (P_gen_Davis_spring_cloud_80)];
+
+filename_p_gen_PV = "PV_solar_power_gen_iso.xlsx"; % make file
+writematrix(PANEL_POWER_ALL_CLOUD_CASES,filename_p_gen_PV,...
             'Sheet',1);

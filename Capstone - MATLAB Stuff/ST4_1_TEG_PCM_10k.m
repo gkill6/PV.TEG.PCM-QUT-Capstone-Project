@@ -11,6 +11,8 @@
 
 
 % GONNA LEAVE THIS FOR 10K WIND ONLY!!! - RENAME!!!
+clc;
+clear all;
 
 %% 1) Set baseline temperatures - AMBIENT TEMPERATURES - "TOP SIDE"
 % Time vector - discretisation of 24-hour window 
@@ -693,6 +695,9 @@ figure(12)
     legend('Casey - Summer','Casey - Spring','Davis - Summer','Davis - Spring')
     title('TEG Power in Array (V^2 / 4.R) - Per 1 Solar Panel - [Wind 1 = 10km/hr]')
     hold off
+
+
+
 
 
 %% Power Generation - Unit Area 
